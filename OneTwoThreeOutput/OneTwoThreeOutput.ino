@@ -12,7 +12,6 @@ int water = A0;
 int val=0;
 int count=0;
 int photocellPin = A1;
-
 dht11 DHT;                  //Note: DHT on behalf of the DHT11 sensor
 const int dht11_data = 8;     //Please put the DH11`s dht11_data pin connect with arduino digital Port 6
 int temp=0;
@@ -43,8 +42,7 @@ void dataToPrint(int i,int data){
   lcd.print(data);
   Serial.print("pluie\t%");
     Serial.print(data);
-    Serial.print("taux de declenchement...todo\n");
-  //  Serial.println(temp);
+    Serial.print("taux de declenchement:300\n");
   delay(150);
   }
   break;
@@ -56,8 +54,9 @@ void dataToPrint(int i,int data){
   lcd.print("humidite ");
   lcd.print(data);
   Serial.print("Humidite=\t%");
-    Serial.print(hum);
-     Serial.print("taux de declenchement...todo\n");
+    Serial.print(data);
+    //Serial.println(time);
+     Serial.print("taux de declenchement: 40-50-60\n");
   //  Serial.println(temp);
     delay(150);
   }break;
@@ -69,8 +68,9 @@ void dataToPrint(int i,int data){
   lcd.print("temperature C ");
   lcd.print(data);
     Serial.print("\tTemperature=\t");
-    Serial.println(temp);
-    Serial.print("taux de declenchement...todo\n");
+    Serial.print(data);
+    //Serial.println(time);
+    Serial.print("taux de declenchement: 24 degC\n");
   //  Serial.println(temp);
   delay(150);
   }break;
@@ -82,8 +82,7 @@ void dataToPrint(int i,int data){
   lcd.print(data);
   Serial.print("lumiere \t lm");
     Serial.print(data);
-    Serial.print("taux de declenchement...todo\n");
-  //  Serial.println(temp);
+    Serial.print("taux de declenchement: 500 lumen\n");
   delay(150);
   }
   break;
@@ -111,9 +110,3 @@ void loop()
   int lumg = analogRead(photocellPin);
   dataToPrint(4,lumg);
 }
-/*
-Serial.print("Hum=\t%");
-  Serial.print(hum);
-  Serial.print("\tTemp=\t");
-  Serial.println(temp);
-*/

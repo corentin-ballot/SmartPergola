@@ -3,22 +3,22 @@
 /*
  * Author: DEBUF Xavier,
  * Date:2017/10/10
- * 
+ *
  */
 #include <LiquidCrystal.h>
-#include <dht11.h> 
+#include <dht11.h>
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 int water = A0;
 int val=0;
 int count=0;
 int photocellPin = A1;
-                 
-dht11 DHT;                  //Note: DHT on behalf of the DHT11 sensor 
+
+dht11 DHT;                  //Note: DHT on behalf of the DHT11 sensor
 const int dht11_data = 8;     //Please put the DH11`s dht11_data pin connect with arduino digital Port 6
 int temp=0;
 int hum=0;
 
-void setup()                                                                                     
+void setup()
 {
   Serial.begin(9600);
   lcd.begin(16,2);
@@ -39,65 +39,77 @@ void dataToPrint(int i,int data){
   case 1 :
   for (int t=0;t<10;t++){
   clearnSet();
-  lcd.print("pluie");          
+  lcd.print("pluie");
   lcd.print(data);
+  Serial.print("pluie\t%");
+    Serial.print(data);
+    Serial.print("taux de declenchement...todo");
+  //  Serial.println(temp);
   delay(150);
   }
   break;
-  
+
   case 2 :
   for (int t=0;t<10;t++){
-  
+
   clearnSet();
   lcd.print("humidite ");
   lcd.print(data);
-  delay(150);
+  Serial.print("Humidite=\t%");
+    Serial.print(hum);
+    delay(150);
   }break;
-  
+
   case 3 :
   for (int t=0;t<10;t++){
   clearnSet();
-  
+
   lcd.print("temperature C ");
   lcd.print(data);
+    Serial.print("\tTemperature=\t");
+    Serial.println(temp);
   delay(150);
   }break;
-  
+
   case 4 :
   for (int t=0;t<10;t++){
   clearnSet();
   lcd.print("lumiere lm");
   lcd.print(data);
+  Serial.print("lumiere \t lm");
+    Serial.print(data);
+    Serial.print("taux de declenchement...todo");
+  //  Serial.println(temp);
   delay(150);
   }
   break;
   }
-  
-  
+
+
 }
 
 void loop()
-{ 
+{
   val=analogRead(water);
   if(val>220)
   count=val/2.2;
   else
   count=0;
-  
+
   dataToPrint(1,count);
   DHT.read(dht11_data);
   temp=DHT.temperature;
   hum=DHT.humidity;
-  
+
  dataToPrint(2,hum);
  dataToPrint(3,temp);
-   
-  int lumg = analogRead(photocellPin);  
+
+  int lumg = analogRead(photocellPin);
   dataToPrint(4,lumg);
 }
 /*
-Serial.print("Hum=\t%");            
+Serial.print("Hum=\t%");
   Serial.print(hum);
-  Serial.print("\tTemp=\t");            
+  Serial.print("\tTemp=\t");
   Serial.println(temp);
 */
