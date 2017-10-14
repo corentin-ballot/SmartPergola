@@ -32,59 +32,56 @@ void clearnSet(){
   lcd.print("Smart Pergolas");
   lcd.setCursor(0, 1) ;
 }
+void serialToJson(int id, int data){
+  // form a JSON-formatted string:
+    String jsonString = "{\"id\":\"";
+    jsonString += id;
+    jsonString +="\",\"mesure\":\"";
+    jsonString += data;
+    jsonString +="\"}";
+
+    // print it:
+    Serial.println(jsonString);
+}
+
 void dataToPrint(int i,int data){
   clearnSet();
+  //int seuil=0;
   switch (i){
   case 1 :
-  for (int t=0;t<10;t++){
   clearnSet();
   lcd.print("pluie");
   lcd.print(data);
-  Serial.print("pluie\t%");
-    Serial.print(data);
-    Serial.print("taux de declenchement:300\n");
-  delay(150);
-  }
+  serialToJson(i,data);
+  delay(1500);
+  
   break;
 
   case 2 :
-  for (int t=0;t<10;t++){
-
   clearnSet();
   lcd.print("humidite ");
   lcd.print(data);
-  Serial.print("Humidite=\t%");
-    Serial.print(data);
-    //Serial.println(time);
-     Serial.print("taux de declenchement: 40-50-60\n");
-  //  Serial.println(temp);
-    delay(150);
-  }break;
+  serialToJson(i,data);
+    delay(1500);
+  break;
 
   case 3 :
-  for (int t=0;t<10;t++){
   clearnSet();
-
   lcd.print("temperature C ");
   lcd.print(data);
-    Serial.print("\tTemperature=\t");
-    Serial.print(data);
-    //Serial.println(time);
-    Serial.print("taux de declenchement: 24 degC\n");
-  //  Serial.println(temp);
-  delay(150);
-  }break;
+  serialToJson(i,data);
+      delay(1500);
+  break;
 
   case 4 :
-  for (int t=0;t<10;t++){
+  
   clearnSet();
   lcd.print("lumiere lm");
+  //seuil=350;
   lcd.print(data);
-  Serial.print("lumiere \t lm");
-    Serial.print(data);
-    Serial.print("taux de declenchement: 500 lumen\n");
-  delay(150);
-  }
+  serialToJson(i,data);
+      delay(1500);
+  
   break;
   }
 
