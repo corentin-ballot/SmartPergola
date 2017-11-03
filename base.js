@@ -160,8 +160,6 @@ var io = require('socket.io')(server);  //pass a http.Server instance
 // Quand un client se connecte, on le note dans la console
 io.on('connection', function (socket) {
     console.log('Un client est connecté !');
-//client.emit('message','light_on');
-//io.emit('mes',{ description: 'Hey, welcome!'});
 
 socket.on('disconnect', function () {
       console.log('A user disconnected');
@@ -170,14 +168,6 @@ socket.on('disconnect', function () {
 			console.log(data);
 
 		});
-		//socket.on('message', function(data) {
-      //   console.log(data.description);
-					 io.emit('mes',{ description: 'Hey, welcome!'});
-           //client.broadcast.emit('broad',data);
-  //  });
-		/*client.on('messages', function(data) {
-           client.emit('broad', data);
-           client.broadcast.emit('broad',data);
-    });*/
+				
 });
 server.listen(3004);
