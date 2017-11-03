@@ -5,20 +5,20 @@ const serialport = require('serialport');
 const fs = require('fs');
 const vm = require('vm');
 var http = require('http');
-vm.runInThisContext(fs.readFileSync(__dirname + "/regulation.js"))
+//vm.runInThisContext(fs.readFileSync(__dirname + "/regulation.js"))
 //Store Arduino data
 var myData = 0;
 
 //Setup and start web server on :3003
 const app = express();
 
-app.get('/', function (req, res) { 
+/*app.get('/', function (req, res) {
 	res.send('Pergolas - Valeur : ' + myData);
-});
+});*/
 
-app.listen(3003, function () { 
-	console.log('Example app listening on port 3003!'); 
-});
+/*app.listen(3003, function () {
+	console.log('Example app listening on port 3003!');
+});*/
 
 //Setup and start serial port reading
 const Readline = serialport.parsers.Readline;
@@ -34,7 +34,7 @@ var mySerialPort = new serialport("/dev/cu.usbmodem1421", {
 
 
 
-
+var datEvents;
 mySerialPort.pipe(parser);
 parser.on('data', function(input) {
   //var d=new Date();
@@ -43,57 +43,129 @@ parser.on('data', function(input) {
 
 //console.log(myData.id+" id mesure "+myData.mesure);
 //const ev = new control();
-var ev= new eventLoad(myData.id,myData.mesure);
+this.datEvents= new eventLoad(myData.id,myData.mesure);
 //console.log(ev);
 });
 
 
 //app.use(express.static(__dirname + '/'));
-app.get('/index.html', function (req, res) { 
+/*app.get('/index.html', function (req, res) {
+	fs.readFile('./index.html', 'utf-8', function(error, content) {
+        res.writeHead(200, {"Content-Type": "text/html"});
+        res.end(content);
+    });
+});*/
+app.get('/index.html', function (req, res) {
 	fs.readFile('./index.html', 'utf-8', function(error, content) {
         res.writeHead(200, {"Content-Type": "text/html"});
         res.end(content);
     });
 });
 
-app.get('/draw.js', function (req, res) { 
+app.get('/draw.js', function (req, res) {
 	fs.readFile('./draw.js', 'utf-8', function(error, content) {
         res.writeHead(200, {"Content-Type": "text/html"});
         res.end(content);
     });
 });
 
-app.get('/style.css', function (req, res) { 
+app.get('/style.css', function (req, res) {
 	fs.readFile('./style.css', 'utf-8', function(error, content) {
         res.writeHead(200, {"Content-Type": "text/css"});
         res.end(content);
     });
 });
 
-app.get('/babylon.custom.js', function (req, res) { 
+app.get('/babylon.custom.js', function (req, res) {
 	fs.readFile('./babylon.custom.js', 'utf-8', function(error, content) {
         res.writeHead(200, {"Content-Type": "text/html"});
         res.end(content);
     });
 });
 
-app.get('/nav.js', function (req, res) { 
+app.get('/nav.js', function (req, res) {
 	fs.readFile('./nav.js', 'utf-8', function(error, content) {
         res.writeHead(200, {"Content-Type": "text/html"});
         res.end(content);
     });
 });
+const eventLoad = function(id,data){
+//console.log("id="+id);
+high=0;
+low=0;
+switch (id){
+ case "1":
+					high=0;
+					if(data>=high){
+					console.log("il pleut, faut-il fermer la veranda: V?");
+					//io.emit('message', 'clim_on');
+					}
+					break;
+
+ case "2": high=80;
+						if(data>=high){
+						console.log("L'humidité est importante doit on aerer ou isoler? A/I?");
+					//	io.emit('message', 'clim_on');
+					}
+						break;
+
+ case "3": high=20;
+						low=15;
+						if(data>=high){
+						 console.log("il fait trop chaud, doit on activer l'air froid? F");
+				//		io.emit('message', 'clim_on');
+					 }else if (data<=low) {
+						 console.log("il fait trop froid, doit on activer l'air chaud? C");
+					// io.emit('message', 'clim_chaud_on');
+				}
+						break;
+
+ case "4":  high=100;
+						low=90;
+						if(data<=low){
+							console.log("il fait nuit doit on allumer les lampes led basse energie (Up)? U");
+					//		io.emit('message', 'light_on');
+						}else if (data>=high) {
+							console.log("il fait jour doit on eteindre les lampes (Down)? D");
+					//		io.emit('message', 'clim_off');
+						}
+					break;
+
+				};
+
+};
+
 
 /***************************/
 /*        WEBSOCKET        */
 /***************************/
 
 // Chargement de socket.io
-var server = http.createServer(app).listen(3004);
-var io = require('socket.io').listen(server);  //pass a http.Server instance
+//var server = http.createServer(app).listen(3004);
+var server = http.createServer(app);
+var io = require('socket.io')(server);  //pass a http.Server instance
 
 // Quand un client se connecte, on le note dans la console
-io.sockets.on('connection', function (socket) {
+io.on('connection', function (socket) {
     console.log('Un client est connecté !');
-    socket.emit('message', 'clim_on');
+//client.emit('message','light_on');
+//io.emit('mes',{ description: 'Hey, welcome!'});
+
+socket.on('disconnect', function () {
+      console.log('A user disconnected');
+   });
+		socket.on('join',function(data){
+			console.log(data);
+
+		});
+		//socket.on('message', function(data) {
+      //   console.log(data.description);
+					 io.emit('mes',{ description: 'Hey, welcome!'});
+           //client.broadcast.emit('broad',data);
+  //  });
+		/*client.on('messages', function(data) {
+           client.emit('broad', data);
+           client.broadcast.emit('broad',data);
+    });*/
 });
+server.listen(3004);
