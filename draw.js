@@ -1084,19 +1084,10 @@ window.addEventListener('DOMContentLoaded', function() {
     //var socket = new io.connect("ws://localhost:3003/");
     var socket = new io.connect("ws://localhost:3004/");
   socket.emit('join','Hello World from Client');
-  //socket.emit('message', function (data) {
-  /*socket.on('messages', function(data) {
-                  alert(data);
-          });*/
-          socket.on('mes',function(data){
-          alert("Green message: "+data.description);
-          });
+
           socket.on('message', function (data) {
 
-            });
-
-        //console.log("message : " + data);
-        /*switch(data) {
+        switch(data) {
         case "light_on": // Lumière non implantée
         console.log("nothing");
         break;
@@ -1109,6 +1100,7 @@ window.addEventListener('DOMContentLoaded', function() {
         case "clim_off": case "clim_chaud_off": disableConditioning();
         console.log("disableConditioning");
         break;
-      }*/
+      }
 
+});
 });

@@ -35,6 +35,7 @@ var mySerialPort = new serialport("/dev/cu.usbmodem1421", {
 
 
 var datEvents;
+
 mySerialPort.pipe(parser);
 parser.on('data', function(input) {
   //var d=new Date();
@@ -93,19 +94,30 @@ const eventLoad = function(id,data){
 //console.log("id="+id);
 high=0;
 low=0;
-switch (id){
+switch (id){/*case "light_on": // Lumière non implantée
+console.log("nothing");
+break;
+case "clim_chaud_on": enableConditioningHOT();
+console.log("enableConditioningHOT");
+break;
+case "clim_on": enableConditioningCOLD();
+console.log("enableConditioningCOLD");
+break;
+case "clim_off": case "clim_chaud_off": disableConditioning();
+console.log("disableConditioning");
+*/
  case "1":
 					high=0;
 					if(data>=high){
 					console.log("il pleut, faut-il fermer la veranda: V?");
-					//io.emit('message', 'clim_on');
+					io.emit('message', 'light_on');
 					}
 					break;
 
  case "2": high=80;
 						if(data>=high){
 						console.log("L'humidité est importante doit on aerer ou isoler? A/I?");
-					//	io.emit('message', 'clim_on');
+					io.emit('message', 'clim_chaud_on');
 					}
 						break;
 
@@ -113,10 +125,10 @@ switch (id){
 						low=15;
 						if(data>=high){
 						 console.log("il fait trop chaud, doit on activer l'air froid? F");
-				//		io.emit('message', 'clim_on');
+					io.emit('message', 'clim_chaud_off');
 					 }else if (data<=low) {
 						 console.log("il fait trop froid, doit on activer l'air chaud? C");
-					// io.emit('message', 'clim_chaud_on');
+					 io.emit('message', 'clim_chaud_on');
 				}
 						break;
 
@@ -124,10 +136,10 @@ switch (id){
 						low=90;
 						if(data<=low){
 							console.log("il fait nuit doit on allumer les lampes led basse energie (Up)? U");
-					//		io.emit('message', 'light_on');
+						io.emit('message', 'light_on');
 						}else if (data>=high) {
 							console.log("il fait jour doit on eteindre les lampes (Down)? D");
-					//		io.emit('message', 'clim_off');
+						io.emit('message', 'clim_off');
 						}
 					break;
 
