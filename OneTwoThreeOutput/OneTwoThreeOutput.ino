@@ -53,7 +53,7 @@ void dataToPrint(int i,int data){
   lcd.print("pluie");
   lcd.print(data);
   serialToJson(i,data);
-  delay(1500);
+  delay(5000);
   
   break;
 
@@ -62,7 +62,7 @@ void dataToPrint(int i,int data){
   lcd.print("humidite ");
   lcd.print(data);
   serialToJson(i,data);
-    delay(1500);
+    delay(5000);
   break;
 
   case 3 :
@@ -70,7 +70,7 @@ void dataToPrint(int i,int data){
   lcd.print("temperature C ");
   lcd.print(data);
   serialToJson(i,data);
-      delay(1500);
+      delay(5000);
   break;
 
   case 4 :
@@ -80,7 +80,7 @@ void dataToPrint(int i,int data){
   //seuil=350;
   lcd.print(data);
   serialToJson(i,data);
-      delay(1500);
+      delay(5000);
   
   break;
   }
