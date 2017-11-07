@@ -24,7 +24,7 @@ const app = express();
 const Readline = serialport.parsers.Readline;
 const parser = new Readline();
 
-var mySerialPort = new serialport("/dev/cu.usbmodem1421", {
+var mySerialPort = new serialport("/dev/ttyACM0", {
     baudRate: 9600,
     dataBits: 8,
     parity: 'none',
@@ -110,7 +110,7 @@ console.log("disableConditioning");
 					high=0;
 					if(data>=high){
 					console.log("il pleut, faut-il fermer la veranda: V?");
-					io.emit('message', 'light_on');
+					io.emit('message', 'clim');
 					}
 					break;
 
@@ -125,7 +125,7 @@ console.log("disableConditioning");
 						low=15;
 						if(data>=high){
 						 console.log("il fait trop chaud, doit on activer l'air froid? F");
-					io.emit('message', 'clim_chaud_off');
+					io.emit('message', 'clim_on');
 					 }else if (data<=low) {
 						 console.log("il fait trop froid, doit on activer l'air chaud? C");
 					 io.emit('message', 'clim_chaud_on');
