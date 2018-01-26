@@ -1093,14 +1093,16 @@ window.addEventListener('DOMContentLoaded', function() {
     house.position = new BABYLON.Vector3(0.0,3.01,0.0); //
 
 
-    var r = confirm("OK to start AC");
+    /*var r = confirm("OK to start AC");
     if (r == true) {
         enableConditioningHOT();
         enableLight();
     } else {
         disableConditioning();
         disableLight();
-    } 
+    } */
+	
+    enableConditioningHOT();
 
     // run the render loop
     engine.runRenderLoop(function(){
