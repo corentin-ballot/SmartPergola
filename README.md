@@ -1,6 +1,6 @@
 # Welcome to SmartPergola
 
-Projet réalisé par **Corentin BALLOT** (côté client), et **Xavier DEBUF** (côté serveur) dans le cadre du cours d'IoT.
+Projet réalisé par **Corentin BALLOT** (côté client), et **Xavier DEBUF** (côté serveur, dont montage) dans le cadre du cours d'IoT.
 
 ## Configuration
 
