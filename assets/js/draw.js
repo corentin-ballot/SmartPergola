@@ -14,12 +14,20 @@ window.addEventListener('DOMContentLoaded', function() {
         // create a FreeCamera, and set its position to (x:0, y:5, z:-10)
         //var camera = new BABYLON.FreeCamera('camera_1', new BABYLON.Vector3(0, 5,-10), scene);
         // Parameters : name, alpha, beta, radius, target, scene
-        var camera = new BABYLON.ArcRotateCamera("ArcRotateCamera", 0.5, 0.5, 10, new BABYLON.Vector3(0, 0, 0), scene);
+        //var camera = new BABYLON.ArcRotateCamera("camera1", 0.5, 0.5, 10, new BABYLON.Vector3(0, 0, 0), scene);
+        var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 5, -10), scene);
 
         // target the camera to scene origin
         camera.setTarget(BABYLON.Vector3.Zero());
-        // attach the camera to the canvas
+
+        // This attaches the camera to the canvas
         camera.attachControl(canvas, false);
+        camera.keysUp.push(90); // "z"
+        camera.keysDown.push(83); // "s"
+        camera.keysRight.push(68); // "d"
+        camera.keysLeft.push(81); // "q"
+        camera.speed = .5;
+
         // set zoom on scroll more accurate
         camera.wheelPrecision = 50; 
 
